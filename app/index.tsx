@@ -1,8 +1,12 @@
-import { Appearance, Text, TextInput, View ,StyleSheet, Pressable, FlatList } from "react-native";
+import {Text, TextInput, View ,StyleSheet, Pressable, } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { data } from "../Datas/todos"
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { MartianMono_500Medium, useFonts } from "@expo-google-fonts/martian-mono";
+import Animated , { Layout, LinearTransition } from "react-native-reanimated";
+import { Octicons } from "@expo/vector-icons";
+import { ThemeContext } from "@/context/ThemeContext";
 
 
 export default function Index() {
@@ -10,6 +14,23 @@ export default function Index() {
   const [todos, setTodos] = useState(data.sort((a,b)=> b.id - a.id));
 
   const [text, setText] = useState("");
+
+  const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error("ThemeContext must be used within a ThemeProvider");
+  }
+  const { colorScheme, setColorScheme, theme } = context;
+
+  const [loaded, error] =  useFonts({
+    MartianMono_500Medium,
+  })
+
+  if(!loaded && error){
+    return null;
+  }
+
+  const styles = createStyles(theme, colorScheme);
+  
 
   const addtodo = () => {
       if(text.trim()){
@@ -42,7 +63,7 @@ export default function Index() {
         {item.title}
       </Text>
       <Pressable onPress={() => deleteTodo(item.id)}>
-        <MaterialIcons name="delete" size={30} color="yellow" />
+        <MaterialIcons name="delete" size={30} color="yellow" selectable={undefined} />
       </Pressable>
     </View>
   );
@@ -62,89 +83,87 @@ export default function Index() {
             Add
           </Text>
         </Pressable>
+        <Pressable onPress={() => setColorScheme(colorScheme=== "dark" ? "light":"dark")} style={{marginLeft:10}}>
+          <Octicons name={colorScheme === "dark" ? "moon" : "sun"} size={36}  color="yellow"  selectable={undefined}/>
+        </Pressable>
       </View>
-      <FlatList
+      <Animated.FlatList
       data={todos}
       keyExtractor={(item: Todo) => item.id.toString()}
       renderItem={renderItem}
       contentContainerStyle={{flexGrow:1}}
+      itemLayoutAnimation={LinearTransition}
+      keyboardDismissMode="on-drag"
+      
       />
 
       </SafeAreaView>
   );
 }
-
-     const styles =  StyleSheet.create({
-        container:{
-            flex:1,
-            backgroundColor:'black',
-            
+    function createStyles(theme: any, colorScheme: string) {
+      return StyleSheet.create({
+        container: {
+          flex: 1,
+          backgroundColor: theme.background,
         },
-        todoContainer:{
-          flexDirection:'row',
-          alignItems:'center',
-          justifyContent:'space-between',
-          borderBottomColor:'rgba(210, 208, 79, 0.71)',
-          borderBottomWidth:1,
-          padding:10,
-          gap:4,
-          marginHorizontal:'auto',
-          width:'100%',
-          maxWidth:1024,
-          pointerEvents:'auto',
+        todoContainer: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          borderBottomColor: 'rgba(210, 208, 79, 0.71)',
+          borderBottomWidth: 1,
+          padding: 10,
+          gap: 4,
+          marginHorizontal: 'auto',
+          width: '100%',
+          maxWidth: 1024,
+          pointerEvents: 'auto',
         },
-        inputContainer:{
-        flexDirection:'row',
-        alignItems:'center',
-        marginBottom:10,
-        padding:10,
-        width:'100%',
-        maxWidth:1024,
-        marginHorizontal:'auto',
-        pointerEvents:'auto',
+        inputContainer: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginBottom: 10,
+          padding: 10,
+          width: '100%',
+          maxWidth: 1024,
+          marginHorizontal: 'auto',
+          pointerEvents: 'auto',
         },
-         textInput:{
-          flex:1,
-          borderColor:'yellow',
-          borderWidth:1,
-          borderRadius:10,
-          padding:10,
-          marginRight:10,
-          fontSize:18,
-          color:'white',
-          minWidth:0,
-          fontFamily:'monospace',
-          fontStyle:'italic',
-          
-         },
-          addButton:{
-            padding:15,
-            borderRadius:10,
-            backgroundColor:'rgb(255, 255, 0)',
-          },
-         addButtonInput:{
-          fontSize:18,
-          textAlign:'auto',
-          fontFamily:'monospace',
-          fontStyle:'italic',
-          fontWeight:'bold',
-          color:'black',
-         },
-         todotext:{
-          flex:1,
-          fontSize:18,
-          color:'white',
-          fontFamily:'monospace',
-          fontStyle:'italic',
-          marginLeft:5,
-         },
-         todoCompleted:{
-           textDecorationLine:'line-through',
-         }
-
-     } )
- 
-
+        textInput: {
+          flex: 1,
+          borderColor: 'yellow',
+          borderWidth: 1,
+          borderRadius: 10,
+          padding: 10,
+          marginRight: 10,
+          fontSize: 18,
+          color: theme.text,
+          minWidth: 0,
+          fontFamily: 'MartianMono_500Medium',
+        },
+        addButton: {
+          padding: 15,
+          borderRadius: 10,
+          backgroundColor: theme.button,
+        },
+        addButtonInput: {
+          fontSize: 18,
+          textAlign: 'auto',
+          fontFamily: 'MartianMono_500Medium',
+          color: 'black',
+        },
+        todotext: {
+          flex: 1,
+          fontSize: 18,
+          color: theme.text,
+          fontFamily: 'MartianMono_500Medium',
+          marginLeft: 5,
+        },
+        todoCompleted: {
+          textDecorationLine: 'line-through',
+        },
+      });
+    }
 
 
 
