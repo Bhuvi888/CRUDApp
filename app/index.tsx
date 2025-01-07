@@ -2,18 +2,20 @@ import {Text, TextInput, View ,StyleSheet, Pressable, } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { data } from "../Datas/todos"
-import { useState, useContext } from "react";
+import { StatusBar } from "expo-status-bar";
+import { useState, useContext, useEffect } from "react";
 import { MartianMono_500Medium, useFonts } from "@expo-google-fonts/martian-mono";
-import Animated , { Layout, LinearTransition } from "react-native-reanimated";
+import Animated , {  LinearTransition } from "react-native-reanimated";
 import { Octicons } from "@expo/vector-icons";
 import { ThemeContext } from "@/context/ThemeContext";
-
+import { RelativePathString, useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Index() {
 
-  const [todos, setTodos] = useState(data.sort((a,b)=> b.id - a.id));
+  const [todos, setTodos] = useState<Todo[]>([]);
 
-  const [text, setText] = useState("");
+  const [text, setText] = useState<string>("");
 
   const context = useContext(ThemeContext);
   if (!context) {
@@ -24,7 +26,45 @@ export default function Index() {
   const [loaded, error] =  useFonts({
     MartianMono_500Medium,
   })
+  const router = useRouter();
 
+  useEffect(() => {
+
+    const fetchData = async () => {
+
+      try {
+        const jsonValue = await AsyncStorage.getItem("TodoApp");
+        const storagetodos = jsonValue != null ? JSON.parse(jsonValue) : null;
+        if(storagetodos && storagetodos.length > 0){
+            setTodos((storagetodos as Todo[]).sort((a: Todo, b: Todo) => b.id - a.id));
+        }else{
+          setTodos(data.sort((a: Todo, b: Todo) => b.id - a.id));
+        }
+      }catch(e){
+        console.error(e);
+        
+      }
+
+    }
+    fetchData();
+  }, [data])  
+
+ useEffect(() => {
+   const storeData = async () => {
+      try {
+        const jsonValue = JSON.stringify(todos);
+        await AsyncStorage.setItem("TodoApp", jsonValue);
+        
+      }catch(e){
+        console.error(e);
+      }
+
+   }
+   storeData();
+   
+ }, [todos])
+ 
+   
   if(!loaded && error){
     return null;
   }
@@ -54,14 +94,23 @@ export default function Index() {
       setTodos(todos.filter((todo:Todo) => todo.id !== id))
   }
 
+  const handletodos = (id: number): void => {
+    router.push(`/todos/${id}` as RelativePathString )
+  }
+
+
   const renderItem = ({item}: {item: Todo}) => (
     <View style={styles.todoContainer}>
+      <Pressable
+      onPress={() => handletodos(item.id)}
+      onLongPress={() => toggleTodo(item.id)}
+      >
       <Text
       style={[styles.todotext, item.completed && styles.todoCompleted]}
-      onPress={() => toggleTodo(item.id)}
       >
         {item.title}
       </Text>
+      </Pressable>
       <Pressable onPress={() => deleteTodo(item.id)}>
         <MaterialIcons name="delete" size={30} color="yellow" selectable={undefined} />
       </Pressable>
@@ -94,9 +143,10 @@ export default function Index() {
       contentContainerStyle={{flexGrow:1}}
       itemLayoutAnimation={LinearTransition}
       keyboardDismissMode="on-drag"
-      
       />
-
+      <StatusBar 
+      style={colorScheme === 'dark' ? 'light' : 'dark'}
+      />
       </SafeAreaView>
   );
 }
@@ -117,6 +167,7 @@ export default function Index() {
           marginHorizontal: 'auto',
           width: '100%',
           maxWidth: 1024,
+          overflow:'scroll',
           pointerEvents: 'auto',
         },
         inputContainer: {
@@ -161,6 +212,7 @@ export default function Index() {
         },
         todoCompleted: {
           textDecorationLine: 'line-through',
+          color:'gray'
         },
       });
     }
