@@ -5,7 +5,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Octicons } from '@expo/vector-icons'
 import { StatusBar } from "expo-status-bar";
 import { ThemeContext } from '@/context/ThemeContext'
-import { MartianMono_500Medium, useFonts } from "@expo-google-fonts/martian-mono";
+import {  SofiaSansCondensed_400Regular,
+  SofiaSansCondensed_500Medium , useFonts } from '@expo-google-fonts/sofia-sans-condensed';
 import { useRouter } from 'expo-router'
 
 import React from 'react'
@@ -36,7 +37,8 @@ const todoedit = () => {
       const { colorScheme, setColorScheme, theme } = context;
     
       const [loaded, error] =  useFonts({
-        MartianMono_500Medium,
+        SofiaSansCondensed_400Regular,
+    SofiaSansCondensed_500Medium
       })
       const router = useRouter();
 
@@ -159,17 +161,19 @@ function createStyles(theme:any,colorScheme:string){
        fontSize: 18,
        color: theme.text,
        minWidth: 0,
-       fontFamily: 'MartianMono_500Medium',
+       fontFamily: 'SofiaSansCondensed_500Medium',
      },
      saveButton:{
       padding:5,
-      borderRadius:15,
+      borderRadius:30,
+
       backgroundColor:theme.button,
      },
      saveText:{
       fontSize: 18,
       textAlign: 'auto',
-      fontFamily: 'MartianMono_500Medium',
+      fontWeight:'condensedBold',
+      fontFamily: 'SofiaSansCondensed_500Medium',
       color: 'black',
      }
 

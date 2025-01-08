@@ -4,7 +4,9 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { data } from "../Datas/todos"
 import { StatusBar } from "expo-status-bar";
 import { useState, useContext, useEffect } from "react";
-import { MartianMono_500Medium, useFonts } from "@expo-google-fonts/martian-mono";
+import {  SofiaSansCondensed_400Regular,
+  SofiaSansCondensed_500Medium , useFonts } from '@expo-google-fonts/sofia-sans-condensed';
+
 import Animated , {  LinearTransition } from "react-native-reanimated";
 import { Octicons } from "@expo/vector-icons";
 import { ThemeContext } from "@/context/ThemeContext";
@@ -24,7 +26,8 @@ export default function Index() {
   const { colorScheme, setColorScheme, theme } = context;
 
   const [loaded, error] =  useFonts({
-    MartianMono_500Medium,
+    SofiaSansCondensed_400Regular,
+    SofiaSansCondensed_500Medium
   })
   const router = useRouter();
 
@@ -190,7 +193,7 @@ export default function Index() {
           fontSize: 18,
           color: theme.text,
           minWidth: 0,
-          fontFamily: 'MartianMono_500Medium',
+          fontFamily: 'SofiaSansCondensed_500Medium',
         },
         addButton: {
           padding: 15,
@@ -200,14 +203,14 @@ export default function Index() {
         addButtonInput: {
           fontSize: 18,
           textAlign: 'auto',
-          fontFamily: 'MartianMono_500Medium',
+          fontFamily: 'SofiaSansCondensed_500Medium',
           color: 'black',
         },
         todotext: {
           flex: 1,
           fontSize: 18,
           color: theme.text,
-          fontFamily: 'MartianMono_500Medium',
+          fontFamily: 'SofiaSansCondensed_500Medium',
           marginLeft: 5,
         },
         todoCompleted: {
