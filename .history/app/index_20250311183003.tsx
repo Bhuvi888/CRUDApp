@@ -217,13 +217,13 @@ export default function Index() {
           fontSize: 18,
           textAlign: 'auto',
           fontFamily: 'SofiaSansCondensed_500Medium',
-          color: 'black',
+          color: theme.text,
         },
         rulesButtonText: {
           fontSize: 18,
           textAlign: 'auto',
           fontFamily: 'SofiaSansCondensed_500Medium',
-          color: 'white',
+          color: 'black',
         },
 
         todotext: {

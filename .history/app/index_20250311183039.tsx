@@ -223,7 +223,7 @@ export default function Index() {
           fontSize: 18,
           textAlign: 'auto',
           fontFamily: 'SofiaSansCondensed_500Medium',
-          color: 'white',
+          color: 'black',
         },
 
         todotext: {

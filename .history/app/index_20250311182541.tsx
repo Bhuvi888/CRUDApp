@@ -135,10 +135,10 @@ export default function Index() {
             Add
           </Text>
         </Pressable>
-        <Pressable style={styles.rulesButton} onPress={
+        <Pressable style={styles.RulesB} onPress={
           ()=> router.push("/rules" as RelativePathString)
         }>
-          <Text style={styles.rulesButtonText} >
+          <Text style={styles.rulesButton} >
             Rules
           </Text>
         </Pressable>
@@ -207,25 +207,12 @@ export default function Index() {
           borderRadius: 10,
           backgroundColor: theme.button,
         },
-        rulesButton: {
-          marginLeft: 10,
-          padding: 15,
-          borderRadius: 10,
-          backgroundColor: '#B20000',
-        },
         addButtonInput: {
           fontSize: 18,
           textAlign: 'auto',
           fontFamily: 'SofiaSansCondensed_500Medium',
           color: 'black',
         },
-        rulesButtonText: {
-          fontSize: 18,
-          textAlign: 'auto',
-          fontFamily: 'SofiaSansCondensed_500Medium',
-          color: 'white',
-        },
-
         todotext: {
           flex: 1,
           fontSize: 18,

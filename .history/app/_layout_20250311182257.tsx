@@ -11,10 +11,10 @@ export default function RootLayout() {
     <ThemeProvider>
       <SafeAreaProvider>
         <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="index" />
           <Stack.Screen name="rules" />
+          <Stack.Screen name="index" />
           <Stack.Screen name="todos/[id]" />
-        </Stack>
+        </Stack
       </SafeAreaProvider>
     </ThemeProvider>
   );

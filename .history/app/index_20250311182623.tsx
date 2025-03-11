@@ -207,11 +207,10 @@ export default function Index() {
           borderRadius: 10,
           backgroundColor: theme.button,
         },
-        rulesButton: {
-          marginLeft: 10,
+        RulesButton: {
           padding: 15,
           borderRadius: 10,
-          backgroundColor: '#B20000',
+          backgroundColor: theme.button,
         },
         addButtonInput: {
           fontSize: 18,
@@ -219,11 +218,11 @@ export default function Index() {
           fontFamily: 'SofiaSansCondensed_500Medium',
           color: 'black',
         },
-        rulesButtonText: {
+        <RulesButtonText></RulesButtonText>: {
           fontSize: 18,
           textAlign: 'auto',
           fontFamily: 'SofiaSansCondensed_500Medium',
-          color: 'white',
+          color: 'black',
         },
 
         todotext: {

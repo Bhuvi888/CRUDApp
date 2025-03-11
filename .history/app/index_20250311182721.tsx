@@ -211,7 +211,7 @@ export default function Index() {
           marginLeft: 10,
           padding: 15,
           borderRadius: 10,
-          backgroundColor: '#B20000',
+          backgroundColor: ,
         },
         addButtonInput: {
           fontSize: 18,
@@ -223,7 +223,7 @@ export default function Index() {
           fontSize: 18,
           textAlign: 'auto',
           fontFamily: 'SofiaSansCondensed_500Medium',
-          color: 'white',
+          color: 'black',
         },
 
         todotext: {

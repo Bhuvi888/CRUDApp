@@ -211,7 +211,7 @@ export default function Index() {
           marginLeft: 10,
           padding: 15,
           borderRadius: 10,
-          backgroundColor: '#B20000',
+          backgroundColor: '#8B0000',
         },
         addButtonInput: {
           fontSize: 18,
